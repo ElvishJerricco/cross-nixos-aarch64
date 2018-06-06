@@ -1,15 +1,14 @@
-with import ../nixpkgs {};
-
 let
   system = import ./system.nix;
+  pkgs = import <nixpkgs> {};
   inherit (system.config.system.build) sdImage;
-in writeShellScriptBin "run-vm" ''
+in pkgs.writeShellScriptBin "run-vm" ''
   set -eu
   if [ ! -f $1 ]; then
-    ${qemu}/bin/qemu-img create -f qcow2 -F raw -b ${sdImage}/sd-image/*.img $1 ''${3:-40G}
+    ${pkgs.qemu}/bin/qemu-img create -f qcow2 -F raw -b ${sdImage}/sd-image/*.img $1 ''${3:-40G}
   fi
 
-  ${qemu}/bin/qemu-system-aarch64 -machine virt,highmem=off \
+  ${pkgs.qemu}/bin/qemu-system-aarch64 -machine virt,highmem=off \
     -cpu cortex-a57 \
     -bios ${system.pkgs.ubootQemuAarch64}/u-boot.bin \
     -drive if=none,file=$1,id=mydisk \
