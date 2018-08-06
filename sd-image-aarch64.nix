@@ -22,7 +22,7 @@ in
   boot.loader.generic-extlinux-compatible.enable = true;
 
   boot.consoleLogLevel = lib.mkDefault 7;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_testing;
 
   # The serial ports listed here are:
   # - ttyS0: for Tegra (Jetson TX1)
@@ -50,7 +50,8 @@ in
         avoid_warnings=1
       '';
       in ''
-        cp ${pkgs.ubootQemuAarch64}/u-boot.bin boot/u-boot.bin
+        (cd ${pkgs.raspberrypifw}/share/raspberrypi/boot && cp bootcode.bin fixup*.dat start*.elf $NIX_BUILD_TOP/boot/)
+        cp ${pkgs.ubootRaspberryPi3_64bit}/u-boot.bin boot/u-boot.bin
         cp ${configTxt} boot/config.txt
         ${extlinux-conf-builder} -t 3 -c ${config.system.build.toplevel} -d ./boot
       '';

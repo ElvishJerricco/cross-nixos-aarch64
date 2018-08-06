@@ -1,3 +1,5 @@
+assert throw "TODO: Currently do not support qemu";
+
 let
   system = import ./system.nix;
   pkgs = import <nixpkgs> {};

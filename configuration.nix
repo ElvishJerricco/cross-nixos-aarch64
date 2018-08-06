@@ -16,7 +16,10 @@
 
   nixpkgs.crossSystem = lib.systems.examples.aarch64-multiplatform;
 
+  nix.checkConfig = false;
+  networking.wireless.enable = lib.mkForce false;
+
   imports = [./sd-image-aarch64.nix];
 
-  system.nixos.stateVersion = "18.03";
+  system.stateVersion = "18.03";
 }
