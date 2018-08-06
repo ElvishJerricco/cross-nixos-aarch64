@@ -1,7 +1,7 @@
 Cross compile NixOS to Aarch64
 ---
 
-# Running in a VM
+# Building for Raspberry Pi 3
 
 ```bash
 $ nix-build \
